@@ -31,4 +31,4 @@ app.use('/salee', postSaleeRouter)
 //home route
 app.use('/', homeRouter )
 
-app.listen(5000, () => { console.log('listening on port 5000'); })
+app.listen(process.env.PORT, () => { console.log(`listening on port ${process.env.PORT}`); })
