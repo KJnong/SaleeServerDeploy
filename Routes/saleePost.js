@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
       cb(null, './uploads/')
     },
     filename: function (req, file, cb) {
-      cb(null, new Date().toDateString() + file.originalname)
+      cb(null, Math.random().toString() + file.originalname)
     }
   })
    
@@ -18,16 +18,11 @@ const storage = multer.diskStorage({
 
 router.post('/', upload.single('image'), async (req, res) => {
 
-  console.log(req.file);
-  console.log(req.body);
-  
-  
     const authHeader = req.header('Authorization');
     const token = authHeader && authHeader.split(' ')[1];
 
     const {name} = jwt.verify(token, process.env.Token_Key);
-    
-     
+  
     const sales = new saleeModel(
         {
             name: name,
@@ -37,7 +32,7 @@ router.post('/', upload.single('image'), async (req, res) => {
             imagePath: req.file.path,
             created: new Date()
         })
-
+   
     try {
         await sales.save();
         const SaleObject = await saleeModel.find();
